@@ -2,11 +2,11 @@
 <h2>My heroes</h2>
 <ul class="heroes">
     @for (hero of heroes; track $index) {
-        <li [class.selected]="hero === heroSelect " (click)="onSelect(hero)">
-            <span class="badge">{{ hero.id }}</span> {{ hero.name }}
-        </li>
+        <div [class.selected]="heroes">
+            <a  [routerLink]="['/detail/', hero.id]" routerLinkActive="router-link-active" >
+                <span class="badge">{{ hero.id }}</span> {{ hero.name }}
+            </a>
+        </div>
     }
 </ul>
-
-<app-hero-detail [hero]="heroSelect"></app-hero-detail>
 
