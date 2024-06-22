@@ -1,8 +1,7 @@
 import { Component, Input, OnInit, inject } from '@angular/core';
 import { Hero } from '../hero';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { HeroService } from '../hero.service';
 
 @Component({
@@ -16,21 +15,23 @@ import { HeroService } from '../hero.service';
   styleUrl: './hero-detail.component.css'
 })
 export class HeroDetailComponent implements OnInit{
-  
-  hero: Hero | undefined;
-  
-  route = inject(ActivatedRoute);
+
   heroService = inject(HeroService);
   location = inject(Location);
-  
+  @Input('id') heroId: string | null = '';
+  hero: Hero | undefined;
+
   ngOnInit(): void {
     this.getHero();
   }
 
   getHero():void{
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.heroService.getHeroe(id)
+    this.heroService.getHeroe(Number(this.heroId))
         .subscribe( hero=> this.hero = hero );
+  }
+
+  goBack():void{
+    this.location.back();
   }
 
 }

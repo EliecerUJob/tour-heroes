@@ -1,10 +1,9 @@
+
 import { Component, OnInit, inject } from '@angular/core';
-import { Hero } from '../hero';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HeroDetailComponent } from '../hero-detail/hero-detail.component';
 import { HeroService } from '../hero.service';
-import { MessageService } from '../message.service';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -23,15 +22,16 @@ export class HeroesComponent implements OnInit{
   
   heroService = inject(HeroService);
 
-  heroes:Hero[]=[];
+  heroes:any[]=[];
 
   getHeroes():void{
     this.heroService.getHeroes()
-        .subscribe(heroes => this.heroes = heroes);
+        .subscribe(heroes => this.heroes = heroes.results);
   }
-
+      
   ngOnInit(){
     this.getHeroes();
+    console.log(this.heroes);
   }
 
 }

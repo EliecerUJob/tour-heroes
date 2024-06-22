@@ -1,8 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { Hero } from './hero';
-import { HEROES } from './mock-heroes';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { MessageService } from './message.service';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -10,14 +9,20 @@ import { MessageService } from './message.service';
 export class HeroService {
   
   messageService = inject(MessageService);
+  http = inject(HttpClient);
+
+  private heroesUrl = 'https://rickandmortyapi.com/api';
   
-  getHeroes():Observable<Hero[]>{
-    this.messageService.add('HeroService: fetched heroes');
-    return of<Hero[]>(HEROES);
+  getHeroes():Observable<any>{
+    return this.http.get<any>(`${this.heroesUrl}/character`);
   }
   
-  getHeroe(id: number):Observable<Hero | undefined> {
-    this.messageService.add(`HeroService: fetched hero id=${id}`);
-    return of(HEROES.find( (hero:Hero) => hero.id === id ));
+  getHeroe(id: number):Observable<any> {
+    this.log(`HeroService: fetched hero id=${id}`);
+    return this.http.get<any>(`${this.heroesUrl}/character/${id}`);
+  }
+
+  private log(message: string){
+    this.messageService.add(`HeroService: ${message}`);
   }
 }

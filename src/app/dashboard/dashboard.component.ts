@@ -14,7 +14,7 @@ import { RouterModule } from '@angular/router';
 })
 export class DashboardComponent implements OnInit{
   
-  heroes: Hero[]=[];
+  heroes: any[]=[];
   heroService = inject(HeroService);
   
   ngOnInit(): void {
@@ -24,7 +24,9 @@ export class DashboardComponent implements OnInit{
   getHeroes():void{
 
     this.heroService.getHeroes()
-        .subscribe( heroes=> this.heroes = heroes.slice(1,5) );
+        .subscribe( heroes=> {
+          this.heroes = heroes.results
+        } );
 
   }
 
